@@ -3,13 +3,19 @@
             [quil.middleware :as m]))
 
 (def size 1000)
-(def step 50)
+(def step 10)
+
 (defn fifty-fifty [] (> (.random js/Math) 0.5))
+
+(defn get-point-variance [j size]
+  (let [dist-to-center (.abs js/Math (/ (- j size) 2))
+        variance (.max js/Math (- (/ size 2) 50 dist-to-center) 0)]
+    (* -1 (.random js/Math) (/ variance 2))))
 
 (defn get-lines [step size]
   (map (fn [i]
          (map
-          (fn [j] {:x j :y (+ i (* (.random js/Math) 10))})
+          (fn [j] {:x j :y (+ i (get-point-variance j size))})
           (range 0 size step)))
        (range 0 size step)))
 
