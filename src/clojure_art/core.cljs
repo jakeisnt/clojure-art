@@ -9,7 +9,7 @@
 (defn get-lines [step size]
   (map (fn [i]
          (map
-          (fn [j] {:x j :y i})
+          (fn [j] {:x j :y (+ i (* (.random js/Math) 10))})
           (range 0 size step)))
        (range 0 size step)))
 
