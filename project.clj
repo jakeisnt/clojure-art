@@ -1,5 +1,5 @@
-(defproject first-sketch "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
+(defproject clojure-art "0.1.0-SNAPSHOT"
+  :description "art i have done in clojure/script"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
@@ -18,7 +18,7 @@
              :source-paths ["src"]
              :figwheel true
              :compiler
-             {:main "first_sketch.core"
+             {:main "clojure_art.core"
               :output-to "resources/public/js/main.js"
               :output-dir "resources/public/js/development"
               :asset-path "js/development"}}
@@ -26,7 +26,7 @@
             {:id "optimized"
              :source-paths ["src"]
              :compiler
-             {:main "first_sketch.core"
+             {:main "clojure_art.core"
               :output-to "resources/public/js/main.js"
               :output-dir "resources/public/js/optimized"
               :asset-path "js/optimized"

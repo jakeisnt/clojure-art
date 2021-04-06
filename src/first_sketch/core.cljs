@@ -1,4 +1,4 @@
-(ns first-sketch.core
+(ns clojure-art.core
   (:require [quil.core :as q :include-macros true]
             [quil.middleware :as m]))
 
@@ -34,7 +34,7 @@
 
 ; this function is called in index.html
 (defn ^:export run-sketch []
-  (q/defsketch first-sketch
+  (q/defsketch clojure-art
     :host "first-sketch"
     :size [500 500]
     ; setup function called only once, during sketch initialization.
@@ -48,4 +48,4 @@
     :middleware [m/fun-mode]))
 
 ; uncomment this line to reset the sketch:
-; (run-sketch)
+;; (run-sketch)
