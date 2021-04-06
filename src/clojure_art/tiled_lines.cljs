@@ -2,6 +2,8 @@
   (:require [quil.core :as q :include-macros true]
             [quil.middleware :as m]))
 
+;; inspo: https://generativeartistry.com/tutorials/tiled-lines/
+
 (def size 1000)
 (def step 80)
 (defn fifty-fifty [] (> (.random js/Math) 0.5))

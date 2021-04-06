@@ -3,62 +3,31 @@
             [quil.middleware :as m]))
 
 (def size 1000)
-(def step 80)
+(def step 50)
 (defn fifty-fifty [] (> (.random js/Math) 0.5))
 
-(defn fp-while [pred fun val]
-  (if (pred val) val (fp-while pred fun (fun val))))
+(defn get-lines [step size]
+  (map (fn [i]
+         (map
+          (fn [j] {:x j :y i})
+          (range 0 size step)))
+       (range 0 size step)))
 
-(defn get-steps [start end step] (reverse
-                                  (fp-while
-                    ;; stop when size is less than the first of the list
-                                   (fn [ls] (< end (first ls)))
-                    ;; add the step size to the first of the list then cons result on
-                                   (fn [ls] (cons (+ (first ls) step) ls))
-                    ;; start with 0
-                                   (list start))))
-
-(defn draw-line [x y step dir]
-  (if dir
-    (q/line x y (+ x step) (+ y step))
-    (q/line (+ x step) y x (+ y step))))
-
-(defn cross-product-steps [lx ly]
-  (reduce
-   (fn [rst x]
-     (concat (map (fn [y] {:x x :y y :dir (fifty-fifty)}) ly) rst))
-   '()
-   lx))
-
-(defn get-first-n [ls n]
-  (concat (:ls (reduce (fn [acc cur] (if (> (:count acc) n)
-                                       acc
-                                       {:ls (cons cur (:ls acc))
-                                        :count (+ 1 (:count acc))}))
-                       {:ls `() :count 0}
-                       ls))))
-
+(defn setup [] (get-lines step size))
+(defn update-state [state] state)
 (defn draw-state [state]
-  (q/stroke-weight 2)
-  (doseq [line (get-first-n (:ls state) (:num-lines state))]
-    (draw-line (:x line) (:y line) step (:dir line))))
-
-(def lines (cross-product-steps
-            (get-steps 0 size step)
-            (get-steps 0 size step)))
-(def lines-len (count lines))
-
-(defn setup []
-  (q/frame-rate 500)
-  {:num-lines 0 :ls lines})
-
-(defn update-state [state]
-  {:dec (cond
-          (= (:num-lines state) 0) nil
-          (= (:num-lines state) lines-len) "yes"
-          :else (:dec state))
-   :num-lines ((if (:dec state) - +) 1 (:num-lines state))
-   :ls (:ls state)})
+  (q/stroke-weight 4)
+  (let [last-point (atom nil)]
+    (doseq [line state]
+      (doseq [point line]
+        (if @last-point
+          (let
+           [x (:x @last-point)
+            y (:y @last-point)]
+            (reset! last-point point)
+            (q/line x y (:x point) (:y point)))
+          (reset! last-point point)))
+      (reset! last-point nil))))
 
 (defn ^:export run-sketch []
   (q/defsketch clojure-art
