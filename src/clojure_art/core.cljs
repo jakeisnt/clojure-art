@@ -2,6 +2,9 @@
   (:require [quil.core :as q :include-macros true]
             [quil.middleware :as m]))
 
+;; https://generativeartistry.com/tutorials/joy-division/
+;; where I got stuck: https://www.geeksforgeeks.org/p5-js-quadraticvertex-function/
+;; http://www.quil.info/api/shape/curves#bezier-point
 (def size 1000)
 (def step 10)
 
